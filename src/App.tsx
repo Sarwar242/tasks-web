@@ -16,7 +16,7 @@ export default function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
       if (
-        isAuthenticated(reactLocalStorage.get("loggedInUser"))
+        isAuthenticated(reactLocalStorage.get("Token"))
       ) {
       } else {
         navigate("/signIn");

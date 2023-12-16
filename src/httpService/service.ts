@@ -14,11 +14,11 @@ class TokenModel {
 export const HTTP = axios.create({ baseURL: baseUrl });
 HTTP.interceptors.request.use(
     async config => {
-        let token = reactLocalStorage.getObject('SignIn') as TokenModel;
+        let token = reactLocalStorage.get('Token');
         config.headers.post= {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token?.accessToken}`,
+            'Authorization': `Bearer ${token}`,
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
             'Access-Control-Allow-Headers': 'Origin, Content-Type, X-XSRF-TOKEN',

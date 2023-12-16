@@ -1,3 +1,3 @@
-export const isAuthenticated = (user:any) => {
-    return user?.token?.length>0 ? true:false;
+export const isAuthenticated = (token:any) => {
+    return token?.length>0 ? true:false;
 }
