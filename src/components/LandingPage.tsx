@@ -13,15 +13,15 @@ const LandingPage = () => {
 	});
   console.log(tasks);
 	useEffect(() => {
-		// dispatch(getTasksAction());
+		dispatch(getTasksAction());
 	}, [dispatch]);
 
   return (
     <div>
       <h2>Task List</h2>
       <ul>
-        {/* {tasks.map((task: string, index: number) => (
-          <li key={index}>{task}</li>
+        {/* {tasks?.map((task: any) => (
+          <li key={task?.id}>{task}</li>
         ))} */}
       </ul>
     </div>
