@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { reactLocalStorage } from "reactjs-localstorage";
+import "./App.css";
+import IndexRoute from "./router/IndexRoute";
+import { isAuthenticated } from "./common/common";
+import NavBar from "./components/include/NavBar";
 
-function App() {
+export default function App() {
+  const navigate = useNavigate();
+
+  const url = window.location.pathname;
+
+  const pathSegments = url.split("/");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+      if (
+        isAuthenticated(reactLocalStorage.get("loggedInUser"))
+      ) {
+      } else {
+        navigate("/signIn");
+      }
+  }, [navigate,  url]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <NavBar />
+      <IndexRoute />
+    </>
   );
 }
-
-export default App;
