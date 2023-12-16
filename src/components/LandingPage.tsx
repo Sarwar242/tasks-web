@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTasksAction } from '../store/actions/task/taskActions';
-import { useNavigate } from 'react-router-dom';
 import { RootState } from '../store';
 
 const LandingPage = () => {
-  const navigate = useNavigate();
 	const dispatch = useDispatch();
   
   const tasks = useSelector((state: RootState) => {
