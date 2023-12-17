@@ -4,14 +4,12 @@ import { reactLocalStorage } from "reactjs-localstorage";
 import "./App.css";
 import IndexRoute from "./router/IndexRoute";
 import { isAuthenticated } from "./common/common";
-import NavBar from "./components/include/NavBar";
+import MainNavbar from "./components/include/MainNavbar";
 
 export default function App() {
   const navigate = useNavigate();
 
   const url = window.location.pathname;
-
-  const pathSegments = url.split("/");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -25,7 +23,7 @@ export default function App() {
 
   return (
     <>
-      <NavBar />
+      <MainNavbar />
       <IndexRoute />
     </>
   );

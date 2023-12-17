@@ -3,22 +3,16 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 import { baseUrl } from '../config/config'
 import store from '../store';
 
-
-class TokenModel {
-    accessToken?: string;
-    expireAt?: number;
-    refreshToken?: string;
-    rememberMeToken?: string
-}
-
 export const HTTP = axios.create({ baseURL: baseUrl });
 HTTP.interceptors.request.use(
     async config => {
         let token = reactLocalStorage.get('Token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
         config.headers.post= {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
             'Access-Control-Allow-Headers': 'Origin, Content-Type, X-XSRF-TOKEN',

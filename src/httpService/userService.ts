@@ -1,10 +1,8 @@
 import { SignInModel } from "../models/authModels";
-import { POST } from "./service";
+import { GET, POST } from "./service";
 
-export const getUserService=(id:any)=>{
- return {};
-
-
+export const getUserService=()=>{
+    return GET("/api/v1/user");
 }
 
 export const signInService=(data: SignInModel)=>{

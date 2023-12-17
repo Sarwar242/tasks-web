@@ -9,11 +9,6 @@ import { SignInModel } from "../../models/authModels";
 import { signInService } from "../../httpService/userService";
 
 
-interface SignInProps {
-  afterSignIn?: any;
-  targetRoute?: string;
-}
-
 export const SignIn: React.FC= () => {
 
   const dispatch = useDispatch();
@@ -76,15 +71,12 @@ export const SignIn: React.FC= () => {
         setEmail("");
         setPassword("");
 
-          navigate(`/`, {
-            replace: true,
-          });
-
-        dispatch({ type: "CLOSE-SIGN-UP" });
-        dispatch({ type: "CLOSE-SIGN-IN" });
+        navigate(`/`, {
+          replace: true,
+        });
       })
       .catch(() => {
-        setEmailError("Wrong Email/Phone or Password");
+        setEmailError("Wrong Email or Password");
         setSignInButtonLoading(false)
       });
   };
@@ -127,7 +119,7 @@ export const SignIn: React.FC= () => {
                     required
                   />
                 </div>
-                <button type="submit" className="btn btn-primary btn-block">
+                <button type="submit" className="btn btn-primary btn-block mt-2">
                   Sign In
                 </button>
               </form>
