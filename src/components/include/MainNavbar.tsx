@@ -1,24 +1,43 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { BsPersonFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserAction } from '../../store/actions/auth/user/userActions';
 import { RootState } from '../../store';
 import { Nav, NavItem, NavLink, Dropdown, DropdownButton, DropdownMenu, DropdownItem } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
+import { reactLocalStorage } from 'reactjs-localstorage';
+import { logoutService } from '../../httpService/userService';
+import { useNavigate } from 'react-router';
 
 const MainNavbar: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const usr = useSelector((state:RootState)=>{
     return state.getUserProfileResponse.data;
   });
 
-  console.log(usr);
   useEffect(()=>{
     dispatch(getUserAction());
   },[dispatch]);
 
+
+  const handleLogout = ()=>{
+    logoutService()
+    .then((res: any) => {
+
+      reactLocalStorage.remove("User");
+      reactLocalStorage.remove("Token");
+      reactLocalStorage.remove("UserId");
+
+      navigate(`/signin`, {
+        replace: true,
+      });
+    })
+    .catch(() => {
+      console.log("Something is Wrong!");
+    });
+  }
   return (
     <>
     <Navbar expand="lg" bg="light">
@@ -46,7 +65,7 @@ const MainNavbar: React.FC = () => {
               <DropdownMenu>
                 <DropdownItem href="/profile">Profile</DropdownItem>
                 <Dropdown.Divider />
-                <DropdownItem href="/logout">Logout</DropdownItem>
+                <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
               </DropdownMenu>
             </DropdownButton>
             

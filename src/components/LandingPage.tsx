@@ -7,9 +7,9 @@ const LandingPage = () => {
 	const dispatch = useDispatch();
   
   const tasks = useSelector((state: RootState) => {
-		return state.getTasksResponse;
+		return state.getTasksResponse.data;
 	});
-  console.log(tasks);
+
 	useEffect(() => {
 		dispatch(getTasksAction());
 	}, [dispatch]);
@@ -18,9 +18,9 @@ const LandingPage = () => {
     <div>
       <h2>Task List</h2>
       <ul>
-        {/* {tasks?.map((task: any) => (
-          <li key={task?.id}>{task}</li>
-        ))} */}
+        {tasks?.tasks?.map((task: any) => (
+          <li key={task?.id}>{task.name}</li>
+        ))}
       </ul>
     </div>
   );

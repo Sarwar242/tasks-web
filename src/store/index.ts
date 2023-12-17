@@ -5,10 +5,8 @@ import { userProfileReducer } from "./reducers/auth/user/userReducer";
 
 
 const reducer = combineReducers({
-
 	getTasksResponse: tasksListReducer,
 	getUserProfileResponse: userProfileReducer,
-
 });
 
 const composeEnhancer = compose;

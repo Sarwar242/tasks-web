@@ -8,3 +8,6 @@ export const getUserService=()=>{
 export const signInService=(data: SignInModel)=>{
     return POST("/api/v1/auth/login", data);
 }
+export const logoutService=()=>{
+    return POST("/api/v1/auth/logout",{});
+}

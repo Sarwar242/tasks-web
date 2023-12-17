@@ -1,4 +1,4 @@
-import { DELETE, GET, POST, PUT } from "./service";
+import { GET } from "./service";
 
 
 export const getTasksService = () => {

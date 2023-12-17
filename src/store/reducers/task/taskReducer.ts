@@ -1,7 +1,10 @@
-export function tasksListReducer(state = {}, action: any) {
-    if (action.type === "GET_TASKS_LIST") {
+import { GET_TASKS_LIST } from "../../constants/task/taskConstants";
+
+export function tasksListReducer(state = { data: {} }, action: any) {
+  switch (action.type) {
+    case GET_TASKS_LIST:
       return { data: action.payload };
-    }
-    return state;
+    default:
+      return state;
   }
-  
+}

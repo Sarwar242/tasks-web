@@ -1,53 +1,17 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
 import { Link, useNavigate } from "react-router-dom";
 import { reactLocalStorage } from "reactjs-localstorage";
-import jwt_decode, { JwtPayload } from 'jwt-decode';
-import { RootState } from "../../store";
 import { SignInModel } from "../../models/authModels";
 import { signInService } from "../../httpService/userService";
 
 
 export const SignIn: React.FC= () => {
 
-  const dispatch = useDispatch();
-
-
-  const goToPrivacyPolicy = () => {
-    document.body.classList.remove('noScroll');
-    dispatch({ type: "CLOSE-SIGN-IN" });
-  }
-  const openSignUp = () => {
-    dispatch({ type: "CLOSE-SIGN-IN" });
-    dispatch({ type: "OPEN-SIGN-UP" });
-  };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-
-  const handleEmailChange = (event: any) => {
-    setEmail(event);
-    setEmailError("")
-  };
-
-  const handlePasswordChange = (event: any) => {
-    setPassword(event);
-    setEmailError("")
-  };
-
-  const handleRememberMeChange = (event: any) => {
-    setRememberMe(event);
-  };
-
+ 
   const navigate = useNavigate();
-
-
-  const [isSignInButtonLoading, setSignInButtonLoading] = useState(false);
 
   const handleSignin = (event: any) => {
     document.body.classList.remove('noScroll');
@@ -56,17 +20,12 @@ export const SignIn: React.FC= () => {
     data.email = email;
     data.password = password;
 
-
-    setSignInButtonLoading(true)
-
     signInService(data)
       .then((res: any) => {
 
         reactLocalStorage.setObject("User", res.data.user);
         reactLocalStorage.set("Token", res.data.token);
         reactLocalStorage.set("UserId", res.data.user.id);
-
-        setSignInButtonLoading(false)
 
         setEmail("");
         setPassword("");
@@ -76,15 +35,8 @@ export const SignIn: React.FC= () => {
         });
       })
       .catch(() => {
-        setEmailError("Wrong Email or Password");
-        setSignInButtonLoading(false)
+        console.log("Wrong Email or Password");
       });
-  };
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   return (
@@ -133,7 +85,3 @@ export const SignIn: React.FC= () => {
     </div>
   );
 };
-
-interface CustomJwtPayload extends JwtPayload {
-  'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string;
-}
