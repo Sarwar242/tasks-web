@@ -1,3 +1,4 @@
+import { reactLocalStorage } from "reactjs-localstorage";
 import { getUserService } from "../../../../httpService/userService";
 import { GET_USER_PROFILE } from "../../../constants/auth/user/userConstant";
 
@@ -7,5 +8,8 @@ export const getUserAction = () => async (dispatch: any) => {
 		const pload = (await data).data;
 		dispatch({ type: GET_USER_PROFILE, payload: pload });
 	}
-	catch (error: any) { }
+	catch (error: any) { 
+		reactLocalStorage.remove("User");
+		reactLocalStorage.remove("Token");
+	}
 }

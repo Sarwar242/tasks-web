@@ -28,7 +28,6 @@ const MainNavbar: React.FC = () => {
 
       reactLocalStorage.remove("User");
       reactLocalStorage.remove("Token");
-      reactLocalStorage.remove("UserId");
 
       navigate(`/signin`, {
         replace: true,
@@ -49,7 +48,6 @@ const MainNavbar: React.FC = () => {
 
         {/* Middle: Tasks, Projects, Users */}
         <Nav>
-          <NavLink href="/tasks">Tasks</NavLink>
           <NavLink href="/projects">Projects</NavLink>
           <NavLink href="/users">Users</NavLink>
         </Nav>

@@ -25,7 +25,6 @@ export const SignIn: React.FC= () => {
 
         reactLocalStorage.setObject("User", res.data.user);
         reactLocalStorage.set("Token", res.data.token);
-        reactLocalStorage.set("UserId", res.data.user.id);
 
         setEmail("");
         setPassword("");
