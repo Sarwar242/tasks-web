@@ -1,18 +1,20 @@
-import { GET_USER_PROFILE } from "../../../constants/auth/user/userConstant";
+import { GET_USERS_LIST, GET_USER_PROFILE } from "../../../constants/auth/user/userConstant";
 
 const initialState = {
-  userList: [],
+  data: [],
 };
 
 const initialUserProfileState = {
   data: { id: 1, name: "User Name", email: "user@email.com" },
 };
 
-export function userListReducer(state = initialState, action: any) {
-  if (action.type === "GET-USER-LIST") {
-    return { userList: action.payload };
+export function usersListReducer(state = initialState, action: any) {
+  switch (action.type) {
+    case GET_USERS_LIST:
+      return { data: action.payload };
+    default:
+      return state;
   }
-  return state;
 }
 
 export function userProfileReducer(

@@ -7,13 +7,7 @@ import {
 import { updateProjectService } from '../../httpService/projectService';
 import { useDispatch } from 'react-redux';
 import { getProjectsAction } from '../../store/actions/project/projectActions';
-
-interface Project {
-  id: string;
-  name: string;
-  description: string;
-  status: any | 'in-progress' | 'completed';
-}
+import { Project } from '../../models/projectModels';
 
 type Props = {
   show: boolean;

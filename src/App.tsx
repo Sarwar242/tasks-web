@@ -13,13 +13,11 @@ export default function App() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-      if (
-        isAuthenticated(reactLocalStorage.get("Token"))
-      ) {
-      } else {
-        navigate("/signIn");
-      }
-  }, [navigate,  url]);
+    if (isAuthenticated(reactLocalStorage.get("Token")) || url === "/signup") {
+    } else {
+      navigate("/signIn");
+    }
+  }, [navigate, url]);
 
   return (
     <>

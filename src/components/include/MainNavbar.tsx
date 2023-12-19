@@ -39,7 +39,7 @@ const MainNavbar: React.FC = () => {
   }
   return (
     <>
-    <Navbar expand="lg" bg="light">
+    <Navbar expand="md" bg="light">
       <Nav className="container-fluid">
         {/* Left side: App Name */}
         <NavItem>

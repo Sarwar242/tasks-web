@@ -1,4 +1,3 @@
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
-
-export const GET_USER = 'GET_USER';
+export const GET_USERS_LIST = 'GET_USERS_LIST';
 

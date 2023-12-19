@@ -6,20 +6,14 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
-import ProjectCard from "./include/ProjectCard";
-import EditProjectModal from "./include/ProjectEdit";
-import { createProjectService, deleteProjectService, statusUpdateProjectService } from "../httpService/projectService";
+import ProjectCard from "./ProjectCard";
+import EditProjectModal from "./ProjectEdit";
+import { createProjectService, deleteProjectService, statusUpdateProjectService } from "../../httpService/projectService";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjectsAction } from "../store/actions/project/projectActions";
-import { RootState } from "../store";
-import { AppDeleteModal } from "./include/AppDeleteModal";
-
-interface Project {
-  id: string;
-  name: string;
-  description: string;
-  status: "in-progress" | "completed";
-}
+import { getProjectsAction } from "../../store/actions/project/projectActions";
+import { RootState } from "../../store";
+import { AppDeleteModal } from "../include/AppDeleteModal";
+import { Project } from "../../models/projectModels";
 
 const ProjectsPage = () => {
   const dispatch = useDispatch();
@@ -30,6 +24,7 @@ const ProjectsPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [Id, setId] = useState([]);
   const [isOpenDeleteModal, setOpenDeleteModal] = useState(false);
+  
   const projectsList = useSelector((state: RootState) => {
     return state.getProjectsResponse.data;
   });
@@ -139,7 +134,7 @@ const ProjectsPage = () => {
             Create Project
           </Button>
         </Col>
-        <Col sm={6}>
+        <Col sm={6} style={{ overflowY:"scroll", height:"100vh" }}>
           <h3>Projects</h3>
           {projectsList?.projects?.map((project: any) => (
             <ProjectCard
