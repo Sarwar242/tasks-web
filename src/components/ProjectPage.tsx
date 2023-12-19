@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -7,24 +7,38 @@ import {
   Button,
   Modal,
   Card,
-} from 'react-bootstrap';
-import ProjectCard from './include/ProjectCard';
-import EditProjectModal from './include/ProjectEdit';
+} from "react-bootstrap";
+import ProjectCard from "./include/ProjectCard";
+import EditProjectModal from "./include/ProjectEdit";
+import { createProjectService, deleteProjectService, statusUpdateProjectService } from "../httpService/projectService";
+import { useDispatch, useSelector } from "react-redux";
+import { getProjectsAction } from "../store/actions/project/projectActions";
+import { RootState } from "../store";
+import { AppDeleteModal } from "./include/AppDeleteModal";
 
 interface Project {
   id: string;
   name: string;
   description: string;
-  status: 'pending' | 'in-progress' | 'completed';
+  status: "in-progress" | "completed";
 }
 
 const ProjectsPage = () => {
-
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
+  const dispatch = useDispatch();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [Id, setId] = useState([]);
+  const [isOpenDeleteModal, setOpenDeleteModal] = useState(false);
+  const projectsList = useSelector((state: RootState) => {
+    return state.getProjectsResponse.data;
+  });
+
+  useEffect(() => {
+    dispatch(getProjectsAction());
+  }, [dispatch]);
 
   const nameHandle = (value: any) => {
     setName(value);
@@ -33,10 +47,14 @@ const ProjectsPage = () => {
   const descriptionHandle = (value: any) => {
     setDescription(value);
   };
+  const openDeleteModal = (id: any) => {
+    console.log(id);
+    setOpenDeleteModal(true);
+    setId(id);
+  };
 
-  const handleAddProject = (data: Project) => {
-    const newProject = {data, ...data };
-    setProjects([...projects, newProject]);
+  const closeDeleteModal = () => {
+    setOpenDeleteModal(false);
   };
 
   const handleEditProject = (updatedProject: Project, id: string) => {
@@ -47,52 +65,85 @@ const ProjectsPage = () => {
     setShowEditModal(false);
   };
 
-  const handleDeleteProject = (id: string) => {
-    const updatedProjects = projects.filter((project) => project.id !== id);
-    setProjects(updatedProjects);
+  const handleChangeStatus = (id: any, newStatus: Project["status"]) => {
+    const data={
+      status: newStatus
+    }
+    statusUpdateProjectService(id,data)
+      .then(() => {
+        dispatch(getProjectsAction());
+        closeDeleteModal();
+      })
+      .catch((error: any) => {
+      });
   };
 
-  const handleChangeStatus = (id: string, newStatus: Project['status']) => {
-    // Update project status in your state and/or backend here
+  const handleDelete = () => {
+    deleteProjectService(Id)
+      .then(() => {
+        dispatch(getProjectsAction());
+        closeDeleteModal();
+      })
+      .catch((error: any) => {
+      });
   };
 
-  const handleSubmit=()=>{
-    
-  }
+  const handleSubmit = () => {
+    var payload = {
+      name: name,
+      description: description,
+    };
+
+    console.log(payload);
+    createProjectService(payload)
+      .then(() => {
+        setName("");
+        setDescription("");
+        console.log("added");
+        dispatch(getProjectsAction());
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Container>
       <Row>
         <Col sm={6}>
           <h3>Add Project</h3>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="projectName">
-              <Form.Label>Project Name:</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter project name"
-                onChange={nameHandle}
-                value={name}
-              />
-            </Form.Group>
-            <Form.Group controlId="projectDescription">
-              <Form.Label>Description:</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="Enter project description"
-                onChange={descriptionHandle}
-                value={description}
-              />
-            </Form.Group>
-            <Button type="submit" variant="primary" className='mt-2'>
-              Create Project
-            </Button>
-          </Form>
+
+          <Form.Group controlId="projectName">
+            <Form.Label>Project Name:</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter project name"
+              onChange={(e: any) => nameHandle(e.target.value)}
+              value={name}
+            />
+          </Form.Group>
+          <Form.Group controlId="projectDescription">
+            <Form.Label>Description:</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              placeholder="Enter project description"
+              onChange={(e: any) => descriptionHandle(e.target.value)}
+              value={description}
+            />
+          </Form.Group>
+          <Button
+            type="submit"
+            variant="primary"
+            className="mt-2"
+            onClick={handleSubmit}
+          >
+            Create Project
+          </Button>
         </Col>
         <Col sm={6}>
           <h3>Projects</h3>
-          {projects.map((project) => (
+          {projectsList?.projects?.map((project: any) => (
             <ProjectCard
               key={project.id}
               project={project}
@@ -100,7 +151,7 @@ const ProjectsPage = () => {
                 setSelectedProject(project);
                 setShowEditModal(true);
               }}
-              onDelete={() => handleDeleteProject(project.id)}
+              onDelete={() => openDeleteModal(project.id)}
               handleChangeStatus={handleChangeStatus}
             />
           ))}
@@ -112,6 +163,16 @@ const ProjectsPage = () => {
           onHide={() => setShowEditModal(false)}
           project={selectedProject}
           onSubmit={handleEditProject}
+        />
+      )}
+
+      {isOpenDeleteModal && (
+        <AppDeleteModal
+          text="Are you sure to Delete?"
+          handleDelete={handleDelete}
+          show={isOpenDeleteModal}
+          onHide={() => setOpenDeleteModal(false)}
+          closeDeleteModal={closeDeleteModal}
         />
       )}
     </Container>

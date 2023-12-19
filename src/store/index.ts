@@ -2,11 +2,13 @@ import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { tasksListReducer } from "./reducers/task/taskReducer";
 import { userProfileReducer } from "./reducers/auth/user/userReducer";
+import { projectsListReducer } from "./reducers/project/projectReducer";
 
 
 const reducer = combineReducers({
 	getTasksResponse: tasksListReducer,
 	getUserProfileResponse: userProfileReducer,
+	getProjectsResponse: projectsListReducer,
 });
 
 const composeEnhancer = compose;

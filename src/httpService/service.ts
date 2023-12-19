@@ -28,6 +28,7 @@ HTTP.interceptors.request.use(
 HTTP.interceptors.response.use(undefined, function (error) {
     
     if (error) {
+        console.log(error);
         const originalRequest = error.config;
         if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
             originalRequest._retry = true;

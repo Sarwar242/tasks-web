@@ -5,7 +5,7 @@ interface Project {
   id: string;
   name: string;
   description: string;
-  status: any|'pending' | 'in-progress' | 'completed';
+  status: any|'in_progress' | 'completed';
 }
 
 type Props = {
@@ -24,16 +24,16 @@ const ProjectCard = ({ project, onEdit, onDelete, handleChangeStatus }: Props) =
       <Button variant="secondary" onClick={onEdit}>
         Edit
       </Button>
-      <Button variant="danger" onClick={onDelete}>
+      <Button className='mx-3' variant="danger" onClick={onDelete}>
         Delete
       </Button>
       <Form.Control
+      className='mt-2'
         as="select"
         onChange={(e) => handleChangeStatus(project.id, e.target.value)}
       >
-        <option value="pending">Pending</option>
-        <option value="in-progress">In Progress</option>
-        <option value="completed">Completed</option>
+        <option value="in_progress" selected={project.status==="in_progress"?true:false}>In Progress</option>
+        <option value="completed"  selected={project.status==="completed"?true:false}>Completed</option>
       </Form.Control>
     </Card.Body>
   </Card>
