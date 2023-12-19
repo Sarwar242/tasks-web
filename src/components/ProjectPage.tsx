@@ -5,8 +5,6 @@ import {
   Col,
   Form,
   Button,
-  Modal,
-  Card,
 } from "react-bootstrap";
 import ProjectCard from "./include/ProjectCard";
 import EditProjectModal from "./include/ProjectEdit";
